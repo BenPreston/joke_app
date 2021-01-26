@@ -8,8 +8,7 @@ let defaultState = {
 const reducer = (state = defaultState, action) => {
   if (action.type === "SET_CATEGORY") {
     return {
-      ...state,
-      Category: action.data,
+      category: action.data.selectedDropDown,
     };
   }
   return state;

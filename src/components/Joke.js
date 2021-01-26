@@ -1,11 +1,9 @@
-// import axios from "axios";
 import { useState, useEffect } from "react";
-import API from "../API";
 import redux from "../redux";
 import axios from "./Axios";
 
 function Joke() {
-  // Create a general state
+  // Create a general state this is just used for cateogry 
   let state = redux.getState();
 
    // Jokes - we will be fetching jokes so set an initial one
@@ -14,6 +12,10 @@ function Joke() {
       setup: "What's the best way to eat Welsh cheese?",
       delivery: "Caerphilly",
     },
+    {
+      setup: "Who is the Developer CodeBase8 should hire?",
+      delivery: "Ben! ",
+    },
   ]);
 
   // Example API URL: 
@@ -21,10 +23,16 @@ function Joke() {
 
   const category = state.category;
   const [numOfJokePart, setNumOfJokeParts] = useState('twopart')
-  const [numOfJokes, setNumOfJokes] = useState(10)  
+  const [numOfJokes, setNumOfJokes] = useState(10)
+  const [jokeSearchTerm, setJokeSearchTerm] = useState('')  
 
   // Create a URL based on the API
-  const fetchUrl = `https://v2.jokeapi.dev/joke/${category}?blacklistFlags=nsfw,religious,political,racist,sexist,explicit&type=${numOfJokePart}&amount=${numOfJokes}`
+  let fetchUrl = `https://v2.jokeapi.dev/joke/${category}?blacklistFlags=nsfw,religious,political,racist,sexist,explicit&type=${numOfJokePart}&amount=${numOfJokes}`
+
+  if(fetchUrl && jokeSearchTerm !== '') {
+    fetchUrl = `${fetchUrl}&contains=${jokeSearchTerm}`
+  }
+
 
   // Set initial 10 jokes with useEffet
   useEffect(() => {
@@ -38,7 +46,8 @@ function Joke() {
 
 
   // JOKE CUSTOMISATION
-  // Dropdown
+
+  // Category Dropdown
   const [dropdownchoice, setdropdownchoice] = useState(category);
 
   const changeCategory = (e) => {
@@ -49,10 +58,9 @@ function Joke() {
     if (selectedDropDown) {
       redux.dispatch({ type: "SET_CATEGORY", data: { selectedDropDown } });
     }
-
-    newJokes(selectedDropDown);
   };
 
+  // Change Number of Jokes
   const changeNumberOfJokes = (e) => {
     const val = parseInt(e.target.value)
     let jokes;
@@ -61,8 +69,27 @@ function Joke() {
     setNumOfJokes(jokes)
   }
 
+  // Search for specific jokes
+  const specificJokeSearch = (e) => {
+    const val = e.target.value
+    setJokeSearchTerm(val)
+  }
+
+  // Change Type of Joke
+  const changeTypeOfJoke = (e) => {
+    const val = e.target.checked ? 'single' : 'twopart'
+    setNumOfJokeParts(val)
+  }
+
   // Call new jokes
-  const newJokes = async (category) => {
+  const newJokes = async () => {
+
+    let fetchUrl = `https://v2.jokeapi.dev/joke/${category}?blacklistFlags=nsfw,religious,political,racist,sexist,explicit&type=${numOfJokePart}&amount=${numOfJokes}`
+
+    if(fetchUrl && jokeSearchTerm !== '') {
+      fetchUrl = `${fetchUrl}&contains=${jokeSearchTerm}`
+    }
+
     const request = await axios.get(fetchUrl);
     setJokes(request.data.jokes);
     return request;
@@ -88,17 +115,24 @@ function Joke() {
           </select>
         </div>
       </form>
-      <p>Set the number of jokes, maximum 10</p>
-      <input type="number" name='numberOfJokes' onChange={changeNumberOfJokes}/>
+      <label for="numberOfJokes">Set the number of jokes, maximum 10</label>
+      <input type="number" id='numberOfJokes' onChange={changeNumberOfJokes}/>
+      <label for="jokeType">One Part Joke</label>
+      <input type="checkbox" id='jokeType' onChange={changeTypeOfJoke}/>
+      <label for="specificJoke">Search for a specific joke</label>
+      <input type="text" id='specificJoke' onChange={specificJokeSearch}/>
       <center>
-        {jokes.map((joke) => {
+        {jokes ? jokes.map((joke) => {
           return (
             <div className="jokecontent">
-              <h4 className="theJoke"> {joke.setup}</h4>
-              <h4 className="theJoke"> {joke.delivery}</h4>
+              <h4 className="theJoke"> {joke.setup ? joke.setup : joke.joke}</h4>
+              <h4 className="theJoke"> {joke.delivery ? joke.delivery : null}</h4>
             </div>
           );
-        })}
+        }) : <div className='jokecontent'>
+          <h4>Sorry there are no jokes to display. Please try a different search</h4>
+        </div>
+        }
         <button onClick={newJokes}>Show me more!</button>
       </center>
     </>

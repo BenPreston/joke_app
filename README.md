@@ -1,71 +1,44 @@
-# Getting Started with Create React App
+# Specification for the project
+
+The prodject was produced on request of a client. The goal was to produce a highly selectable joke app. The following parameters as part of this task:
+
+**INITIAL LOAD**
+
+**Requirement**: The application should load 10 jokes from the any category
+**Status**: Complete! Loads with 10 on from Any category
+
+**Requirement**:  Joke category, type, and joke are visible to end use
+**Status**: These are both visible and changeable. The UI changes from two divs to one to reflect this.
+
+**Requirement**: Display total jokes available
+**Status**: The API is selectable for any number of jokes up to 10. As no more than this is permitted it defaults to 10 if a number out of the range 1-10 is selected.
+
+**CATEGORY FILTERING**
+
+**Requirement**: The user should be able to filter through all of the categories. When selected it should call this category
+**Status**: This has been implemented with Dark removed due to a later requirement for safe jokes. As requested no multi category selection has been implemented.
+
+**JOKE SEARCH**
+**Requirement**: The user should be able to search for jokes on a search term
+**Status**: Implemented and if no jokes are found the user is alerted to this. As all properties are selectable the search is dynamic to reflect this.
+
+**OPTIONAL EXTRAS**
+**Requirement**: Add a new joke, 
+**Status**: Not yet implemented
+
+**Requirement**: Styling not requested but this App needs finishing before production. However as it's at MVP stage this hasn't been taken into account.
+**Status**: To do
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
-
-In the project directory, you can run:
 
 ### `npm start`
+
+To run this project locally download all node modules and run npm start.
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# joke_app
