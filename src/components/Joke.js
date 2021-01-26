@@ -1,25 +1,45 @@
-import { useState } from "react";
+// import axios from "axios";
+import { useState, useEffect } from "react";
 import API from "../API";
 import redux from "../redux";
+import axios from "./Axios";
 
 function Joke() {
+  // Create a general state
   let state = redux.getState();
-  let category = state.category;
 
+   // Jokes - we will be fetching jokes so set an initial one
+   const [jokes, setJokes] = useState([
+    {
+      setup: "What's the best way to eat Welsh cheese?",
+      delivery: "Caerphilly",
+    },
+  ]);
+
+  // Example API URL: 
+  // "https://v2.jokeapi.dev/joke/Christmas?blacklistFlags=nsfw,religious,political,racist,sexist,explicit&type=twopart&amount=10"; 
+
+  const category = state.category;
+  const [numOfJokePart, setNumOfJokeParts] = useState('twopart')
+  const [numOfJokes, setNumOfJokes] = useState(10)  
+
+  // Create a URL based on the API
+  const fetchUrl = `https://v2.jokeapi.dev/joke/${category}?blacklistFlags=nsfw,religious,political,racist,sexist,explicit&type=${numOfJokePart}&amount=${numOfJokes}`
+
+  // Set initial 10 jokes with useEffet
+  useEffect(() => {
+    async function fetchData() {
+      const request = await axios.get(fetchUrl);
+      setJokes(request.data.jokes);
+      return request;
+    }
+    fetchData();
+  }, [fetchUrl]);
+
+
+  // JOKE CUSTOMISATION
   // Dropdown
   const [dropdownchoice, setdropdownchoice] = useState(category);
-
-  // Jokes
-  const [jokes, setJokes] = useState([]);
-  const [hasLoaded, setHasLoaded] = useState(false);
-
-  const newJokes = (category) => {
-    API(category).then((res) => {
-      const returnedJokes = res.data && res.data.jokes;
-      setJokes(returnedJokes);
-      if (!hasLoaded) setHasLoaded(true);
-    });
-  };
 
   const changeCategory = (e) => {
     const selectedDropDown = e.target.value;
@@ -33,13 +53,20 @@ function Joke() {
     newJokes(selectedDropDown);
   };
 
-  const loadAtStart = () => {
-    if (jokes.length === 0 && !hasLoaded) {
-      newJokes("Any");
-    }
-  };
+  const changeNumberOfJokes = (e) => {
+    const val = parseInt(e.target.value)
+    let jokes;
 
-  loadAtStart();
+    val > 1 && val <= 10 ? jokes = val : jokes = 10; 
+    setNumOfJokes(jokes)
+  }
+
+  // Call new jokes
+  const newJokes = async (category) => {
+    const request = await axios.get(fetchUrl);
+    setJokes(request.data.jokes);
+    return request;
+  };
 
   return (
     <>
@@ -49,7 +76,7 @@ function Joke() {
       <form action="#" onChange={(e) => changeCategory(e)}>
         <div class="select-box">
           <label for="select-box1" class="label select-box1">
-            <span class="label-desc">{dropdownchoice}</span>{" "}
+            <span class="label-desc">Choose your joke type</span>{" "}
           </label>
           <select id="select-box1" class="select">
             <option value="Any">Any</option>
@@ -61,6 +88,8 @@ function Joke() {
           </select>
         </div>
       </form>
+      <p>Set the number of jokes, maximum 10</p>
+      <input type="number" name='numberOfJokes' onChange={changeNumberOfJokes}/>
       <center>
         {jokes.map((joke) => {
           return (
@@ -70,7 +99,7 @@ function Joke() {
             </div>
           );
         })}
-        {/* <button onClick={alert("hi")}>Show me more!</button> */}
+        <button onClick={newJokes}>Show me more!</button>
       </center>
     </>
   );
