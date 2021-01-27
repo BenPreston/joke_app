@@ -1,5 +1,7 @@
 # Specification for the project
 
+This project is live at [Joke Generator](https://reduxjokeapp.web.app/).
+
 The prodject was produced on request of a client. The goal was to produce a highly selectable joke app. The following parameters as part of this task:
 
 **INITIAL LOAD**
@@ -26,8 +28,8 @@ The prodject was produced on request of a client. The goal was to produce a high
 **Requirement**: Add a new joke, 
 **Status**: Not yet implemented
 
-**Requirement**: Styling not requested but this App needs finishing before production. However as it's at MVP stage this hasn't been taken into account.
-**Status**: To do
+**Requirement**: Styling not requested but this App needs finishing before production 
+**Status**: The main known bug is the card flipping doesn't work on mobile. Also there is an issue with overflow for long text and the flip functionality possibly makes little sense for a one liner.
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

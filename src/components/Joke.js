@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import redux from "../redux";
 import axios from "./Axios";
+import Card from './Card';
+
+import '../styles/checkbox.scss'
+import '../styles/button.scss'
 
 function Joke() {
   // Create a general state this is just used for cateogry 
@@ -27,7 +31,7 @@ function Joke() {
   const [jokeSearchTerm, setJokeSearchTerm] = useState('')  
 
   // Create a URL based on the API
-  let fetchUrl = `https://v2.jokeapi.dev/joke/${category}?blacklistFlags=nsfw,religious,political,racist,sexist,explicit&type=${numOfJokePart}&amount=${numOfJokes}`
+  let fetchUrl = `https://v2.jokeapi.dev/joke/${category}?blacklistFlags=nsfw,religious,political,racist,sexist,explicit&type=${numOfJokePart}&amount=${numOfJokes}&safe-mode`
 
   if(fetchUrl && jokeSearchTerm !== '') {
     fetchUrl = `${fetchUrl}&contains=${jokeSearchTerm}`
@@ -84,7 +88,7 @@ function Joke() {
   // Call new jokes
   const newJokes = async () => {
 
-    let fetchUrl = `https://v2.jokeapi.dev/joke/${category}?blacklistFlags=nsfw,religious,political,racist,sexist,explicit&type=${numOfJokePart}&amount=${numOfJokes}`
+    let fetchUrl = `https://v2.jokeapi.dev/joke/${category}?blacklistFlags=nsfw,religious,political,racist,sexist,explicit&type=${numOfJokePart}&amount=${numOfJokes}&safe-mode`
 
     if(fetchUrl && jokeSearchTerm !== '') {
       fetchUrl = `${fetchUrl}&contains=${jokeSearchTerm}`
@@ -117,24 +121,31 @@ function Joke() {
       </form>
       <label for="numberOfJokes">Set the number of jokes, maximum 10</label>
       <input type="number" id='numberOfJokes' onChange={changeNumberOfJokes}/>
-      <label for="jokeType">One Part Joke</label>
-      <input type="checkbox" id='jokeType' onChange={changeTypeOfJoke}/>
       <label for="specificJoke">Search for a specific joke</label>
       <input type="text" id='specificJoke' onChange={specificJokeSearch}/>
-      <center>
+      <div class="page__toggle">
+        <label class="toggle">
+          <input class="toggle__input" type="checkbox"  onChange={changeTypeOfJoke} />
+          <span class="toggle__label">
+            <span class="toggle__text">Check for one line jokes!</span>
+          </span>
+        </label>
+      </div> 
+      <div className='jokesHolder'>
         {jokes ? jokes.map((joke) => {
           return (
-            <div className="jokecontent">
-              <h4 className="theJoke"> {joke.setup ? joke.setup : joke.joke}</h4>
-              <h4 className="theJoke"> {joke.delivery ? joke.delivery : null}</h4>
-            </div>
+            <Card
+              setup={joke.setup ? joke.setup : joke.joke}
+              delivery={joke.delivery ? joke.delivery : null}
+              category={joke.category}
+            />
           );
         }) : <div className='jokecontent'>
           <h4>Sorry there are no jokes to display. Please try a different search</h4>
         </div>
         }
-        <button onClick={newJokes}>Show me more!</button>
-      </center>
+        <a className="horizontal"><span onClick={newJokes} class="text">Reload</span></a>
+      </div>
     </>
   );
 }

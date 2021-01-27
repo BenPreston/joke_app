@@ -1,10 +1,6 @@
 .App {
   text-align: center;
-}
-
-.jokecontent {
-  border: 1px solid;
-  margin: 10px;
+  color: #f6dfdf;
 }
 
 .select-box {
@@ -16,3 +12,10 @@ label {
   display: block;
   margin: 10px;
 }
+
+.page__toggle {
+  margin-top: 15px;
+  border: 1px solid white;
+  width: 300px;
+  margin: 20px auto 20px auto;
+  }
